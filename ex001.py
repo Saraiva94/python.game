@@ -48,30 +48,31 @@ while True:
             pygame.quit()
             exit()
 
-    if pygame.key.get_pressed()[K_a]:
-        if x_control == speed:
-            pass
-        else:
-            x_control = - speed
-            y_control = 0
-    if pygame.key.get_pressed()[K_s]:
-        if y_control == speed:
-            pass
-        else:
-            y_control = speed
-            x_control = 0
-    if pygame.key.get_pressed()[K_d]:
-        if x_control == speed:
-            pass
-        else:
-            x_control = speed
-            y_control = 0
-    if pygame.key.get_pressed()[K_w]:
-        if y_control == speed:
-            pass
-        else:
-            y_control = - speed
-            x_control = 0
+        if event.type == KEYDOWN:
+            if event.key == K_a:
+                if x_control == speed:
+                    pass
+                else:
+                    x_control = -speed
+                    y_control = 0
+            if event.key == K_d:
+                if x_control == -speed:
+                    pass
+                else:
+                    x_control = speed
+                    y_control = 0
+            if event.key == K_w:
+                if y_control == speed:
+                    pass
+                else:
+                    y_control = -speed
+                    x_control = 0
+            if event.key == K_s:
+                if y_control == -speed:
+                    pass
+                else:
+                    y_control = speed
+                    x_control = 0
 
     snake = pygame.draw.circle(tela, (40,255,40), (x_snake,y_snake), 20)
 
@@ -103,5 +104,3 @@ while True:
     tela.blit(texto_formatado,(280,15))
 
     pygame.display.update()
-
-
