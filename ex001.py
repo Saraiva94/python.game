@@ -38,6 +38,18 @@ def add_snake(lista_body_snake):
     for XeY in lista_body_snake:
         pygame.draw.circle(tela, (40,255,40), (XeY[0], XeY[1]), 20 )
 
+def restart_game():
+    global pontos, begin_body_snake, x_snake, y_snake, lista_body_snake, lista_head_snake, x_apple, y_apple, die
+    pontos = 0
+    begin_body_snake = 5
+    x_snake = int(largura / 2)
+    y_snake = int(altura / 2)
+    lista_body_snake = []
+    lista_head_snake = []
+    x_apple = randint(40, 600)
+    y_apple = randint(50, 430)
+    die = False
+
 while True:
     relogio.tick(30)
     tela.fill((0,0,0))
@@ -93,8 +105,35 @@ while True:
     lista_head_snake.append(x_snake)
     lista_head_snake.append(y_snake)
 
-
     lista_body_snake.append(lista_head_snake)
+
+    if lista_body_snake.count(lista_head_snake) > 1:
+        fonte2 = pygame.font.SysFont('Arial', 22, True, False )
+        mensagem = 'Game Over! Pressione [R] para reiniciar o game.'
+        texto_formatado = fonte2.render(mensagem, True, (255,255,255))
+        ret_text = texto_formatado.get_rect()
+        die = True
+        while die:         
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    exit()
+                if event.type == KEYDOWN:
+                    if event.key == K_r:
+                        restart_game()
+
+            ret_text.center = (largura // 2, altura // 2)
+            tela.blit(texto_formatado, ret_text)
+            pygame.display.update()
+
+    if x_snake > largura:
+        x_snake = 0
+    if x_snake < 0:
+        x_snake = largura
+    if y_snake < 0:
+        y_snake = altura
+    if y_snake > altura:
+        y_snake = 0
 
     if len(lista_body_snake) > begin_body_snake:
         del lista_body_snake[0]
@@ -104,3 +143,4 @@ while True:
     tela.blit(texto_formatado,(280,15))
 
     pygame.display.update()
+
